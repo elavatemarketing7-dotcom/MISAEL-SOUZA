@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, ArrowRight, Instagram, MessageCircle, CheckCircle2, ChevronLeft, Award, Star, Zap, TrendingUp, Loader2, Play } from 'lucide-react';
-import { EXPERT, PROOF_IMAGES, TRUST_CARDS, QUIZ_QUESTIONS, TESTIMONIAL_VIDEOS } from './constants';
+import { EXPERT, PROOF_IMAGES, TRUST_CARDS, QUIZ_QUESTIONS, TESTIMONIAL_VIDEOS } from './constants.tsx';
 
 type AppState = 'welcome' | 'quiz' | 'analyzing' | 'quiz-result' | 'landing';
 
@@ -21,7 +22,6 @@ const App: React.FC = () => {
     }
   };
 
-  // Efeito para simular a análise dos dados
   useEffect(() => {
     if (appState === 'analyzing') {
       const interval = setInterval(() => {
@@ -41,16 +41,15 @@ const App: React.FC = () => {
   }, [appState]);
 
   const getWhatsAppLink = (isQuiz = false) => {
-    const baseUrl = "https://api.whatsapp.com/send";
-    const phone = EXPERT.whatsappPhone;
+    const baseUrl = "https://wa.me/" + EXPERT.whatsappPhone;
     let text = "Olá Misael, vi seu site e gostaria de uma consultoria gratuita!";
     
     if (isQuiz) {
-      const summary = quizAnswers.map((a, i) => `Q${i + 1}: ${a}`).join('\n');
+      const summary = quizAnswers.map((a, i) => `Pergunta ${i + 1}: ${a}`).join('\n');
       text = `Olá Misael, finalizei meu quiz no site! Aqui estão meus detalhes:\n\n${summary}`;
     }
     
-    return `${baseUrl}?phone=${phone}&text=${encodeURIComponent(text)}`;
+    return `${baseUrl}?text=${encodeURIComponent(text)}`;
   };
 
   if (appState === 'welcome') {
@@ -95,15 +94,12 @@ const App: React.FC = () => {
     
     return (
       <div className="fixed inset-0 z-50 bg-black overflow-hidden">
-        {/* Background Hint of Landing */}
         <div className="absolute inset-0 opacity-10 pointer-events-none select-none grayscale brightness-50">
           <LandingPage previewMode={true} />
         </div>
 
         <div className="relative h-full flex flex-col items-center justify-center p-4 sm:p-10">
           <div className="max-w-md w-full glass-card p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl relative border-amber-500/20">
-            
-            {/* Header / Expert Floating Photo Compacto */}
             <div className="flex items-center gap-4 mb-6">
               <div className="w-16 h-16 rounded-xl overflow-hidden border border-amber-500 shadow-xl shrink-0">
                 <img src={EXPERT.profilePhoto} alt={EXPERT.name} className="w-full h-full object-cover" />
@@ -114,7 +110,6 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Progress Bar Compacta */}
             <div className="w-full h-1 bg-slate-900 rounded-full mb-6 overflow-hidden">
               <div 
                 className="h-full gold-gradient transition-all duration-500 ease-out"
@@ -190,7 +185,6 @@ const App: React.FC = () => {
   if (appState === 'quiz-result') {
     return (
       <div className="fixed inset-0 z-[60] bg-black flex flex-col justify-end sm:justify-center overflow-hidden">
-        {/* Full Image Background for mobile focus */}
         <div className="absolute inset-0 z-0">
           <img 
             src={EXPERT.profilePhoto} 
@@ -254,9 +248,7 @@ const LandingPage: React.FC<{ previewMode: boolean; getWhatsAppLink?: (isQuiz?: 
 
   return (
     <div className={`w-full bg-black text-white ${previewMode ? 'pointer-events-none' : ''}`}>
-      {/* HERO SECTION */}
       <section className="relative pt-24 pb-32 overflow-hidden px-6">
-        {/* Abstract Gold Glows */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[120px] -z-10"></div>
         <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-amber-600/5 rounded-full blur-[100px] -z-10"></div>
         
@@ -266,7 +258,7 @@ const LandingPage: React.FC<{ previewMode: boolean; getWhatsAppLink?: (isQuiz?: 
             <img 
               src={EXPERT.profilePhoto} 
               alt={EXPERT.name} 
-              className="w-full max-w-[340px] aspect-[3/4] object-cover rounded-[3rem] shadow-2xl border-2 border-amber-500/20 hover:border-amber-500/50 transition-all duration-700"
+              className="w-full max-w-[340px] aspect-[3/4] object-cover rounded-[3rem] shadow-2xl border-2 border-amber-500/20"
             />
             <div className="absolute -bottom-8 -left-8 glass-card py-4 px-6 rounded-2xl shadow-2xl flex items-center gap-4 animate-bounce-slow border-amber-500/30">
                <div className="w-12 h-12 gold-gradient rounded-full flex items-center justify-center text-black">
@@ -292,20 +284,16 @@ const LandingPage: React.FC<{ previewMode: boolean; getWhatsAppLink?: (isQuiz?: 
                 href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto gold-gradient text-black py-7 px-14 rounded-[2.5rem] font-black text-xl flex items-center justify-center gap-4 shadow-2xl shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all animate-pulse-gold"
+                className="w-full sm:w-auto gold-gradient text-black py-7 px-14 rounded-[2.5rem] font-black text-xl flex items-center justify-center gap-4 shadow-2xl active:scale-95 transition-all animate-pulse-gold"
               >
                 CHAMAR NO WHATSSAP
                 <MessageCircle className="w-6 h-6" />
               </a>
-              <span className="text-sm font-medium text-slate-500 flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-amber-500" /> Vagas exclusivas por região
-              </span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* QUEM SOU EU */}
       <section className="bg-[#050505] py-32 px-6 border-y border-white/5">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-16 items-center">
           <div className="w-full md:w-1/2">
@@ -317,7 +305,7 @@ const LandingPage: React.FC<{ previewMode: boolean; getWhatsAppLink?: (isQuiz?: 
           <div className="w-full md:w-1/2 space-y-8">
             <h2 className="text-4xl font-serif font-bold text-white leading-tight">Autoridade e Estratégia de Elite</h2>
             <p className="text-slate-400 text-lg leading-relaxed">
-              Esqueça fórmulas mágicas. Meu foco é na <span className="text-white font-semibold">saúde financeira</span> e no crescimento exponencial do seu negócio estético usando o ativo mais valioso que você já possui: seus clientes.
+              Esqueça fórmulas mágicas. Meu foco é na <span className="text-white font-semibold">saúde financeira</span> e no crescimento exponencial do seu negócio estético.
             </p>
             <div className="grid gap-5">
               {[
@@ -338,174 +326,40 @@ const LandingPage: React.FC<{ previewMode: boolean; getWhatsAppLink?: (isQuiz?: 
         </div>
       </section>
 
-      {/* RESULTADOS REAIS (GALLERY) */}
       <section className="py-32 px-6 bg-black">
         <div className="max-w-6xl mx-auto space-y-20">
           <div className="text-center space-y-4">
             <h2 className="text-5xl font-serif font-bold gold-text">Resultados Incontestáveis</h2>
-            <p className="text-slate-500 text-lg">Impacto real no faturamento de quem confiou no método.</p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
             {PROOF_IMAGES.map((img, i) => (
               <div key={i} className="group relative overflow-hidden rounded-3xl aspect-square bg-slate-900 border border-white/10">
-                <img 
-                  src={img} 
-                  alt={`Resultado ${i+1}`} 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6">
-                   <Zap className="w-5 h-5 text-amber-500 mr-2" />
-                   <span className="text-white text-xs font-black tracking-widest uppercase">Performance Max</span>
-                </div>
+                <img src={img} alt={`Resultado ${i+1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 grayscale group-hover:grayscale-0" />
               </div>
             ))}
-          </div>
-          
-          <div className="p-8 glass-card rounded-3xl text-center max-w-2xl mx-auto">
-             <p className="text-amber-500/60 text-sm italic font-medium tracking-wide">"Resultados auditados e documentados. A escala depende da base inicial e infraestrutura da clínica."</p>
           </div>
         </div>
       </section>
 
-      {/* DEPOIMENTOS EM VÍDEO */}
       <section className="py-32 px-6 bg-[#0a0a0a]">
         <div className="max-w-6xl mx-auto space-y-20">
           <div className="text-center space-y-4">
             <h2 className="text-5xl font-serif font-bold gold-text">Histórias de Sucesso</h2>
-            <p className="text-slate-500 text-lg">O que nossos parceiros dizem sobre a transformação.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {TESTIMONIAL_VIDEOS.map((videoUrl, i) => (
               <div key={i} className="relative group overflow-hidden rounded-[2.5rem] bg-slate-900 border border-amber-500/20 aspect-[9/16] shadow-2xl">
-                <video 
-                  className="w-full h-full object-cover"
-                  controls
-                  playsInline
-                  preload="metadata"
-                >
+                <video className="w-full h-full object-cover" controls playsInline preload="metadata">
                   <source src={videoUrl} type="video/mp4" />
-                  Seu navegador não suporta vídeos.
                 </video>
-                <div className="absolute top-6 left-6 z-10">
-                  <div className="bg-amber-500 text-black p-2 rounded-xl shadow-lg">
-                    <Star className="w-5 h-5 fill-black" />
-                  </div>
-                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* POR QUE CONFIAR */}
-      <section className="py-32 px-6 bg-black relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-64 h-64 gold-gradient rounded-full blur-[100px] opacity-10"></div>
-        <div className="max-w-6xl mx-auto space-y-20">
-          <div className="text-center max-w-2xl mx-auto space-y-4">
-            <h2 className="text-4xl sm:text-5xl font-serif font-bold leading-tight">Por que Misael Souza?</h2>
-          </div>
-          
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {TRUST_CARDS.map((card, i) => (
-              <div key={i} className="glass-card p-10 rounded-[2.5rem] hover:border-amber-500/60 transition-all duration-500 group">
-                <div className="mb-8 w-16 h-16 rounded-2xl gold-gradient flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-amber-500/20">
-                   <div className="text-black">{card.icon}</div>
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-white">{card.title}</h3>
-                <p className="text-slate-400 leading-relaxed text-sm font-light">{card.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA INTERMEDIARIO */}
-      <section className="py-24 px-6 bg-black">
-         <div className="max-w-4xl mx-auto gold-gradient p-1 rounded-[3rem] shadow-3xl">
-           <div className="bg-black rounded-[2.9rem] p-12 text-center space-y-8">
-              <h2 className="text-3xl font-serif font-bold italic">"Pare de gastar com o que não funciona e foque no lucro real."</h2>
-              <a 
-                href={waLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-4 gold-text font-black text-xl hover:scale-105 transition-transform"
-              >
-                FALAR DIRETAMENTE COMIGO <ArrowRight className="w-6 h-6 text-amber-500" />
-              </a>
-           </div>
-         </div>
-      </section>
-
-      {/* COMO FUNCIONA */}
-      <section className="py-32 px-6">
-        <div className="max-w-4xl mx-auto space-y-20">
-          <div className="text-center">
-            <h2 className="text-4xl font-serif font-bold gold-text">A Experiência Signature</h2>
-          </div>
-
-          <div className="grid gap-12">
-            {[
-              { 
-                step: "01", 
-                title: "Conexão Inicial", 
-                desc: "Alinhamos suas metas de faturamento e entendemos o potencial oculto da sua clínica."
-              },
-              { 
-                step: "02", 
-                title: "Diagnóstico Premium", 
-                desc: "Análise profunda de dados e presença digital sem custo para clientes selecionados."
-              },
-              { 
-                step: "03", 
-                title: "Implementação e Escala", 
-                desc: "Execução do método orgânico para gerar resultados imediatos e sustentáveis."
-              }
-            ].map((item, i) => (
-              <div key={i} className="flex gap-8 group">
-                <div className="text-6xl font-serif font-bold text-white/5 group-hover:gold-text transition-all duration-700">
-                  {item.step}
-                </div>
-                <div className="pt-4 space-y-2">
-                  <h3 className="text-2xl font-bold text-white tracking-tight">{item.title}</h3>
-                  <p className="text-slate-400 leading-relaxed font-light">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA FINAL */}
-      <section className="py-32 px-6 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-amber-500/5 to-black -z-10"></div>
-        <div className="max-w-4xl mx-auto text-center space-y-12">
-           <h2 className="text-5xl sm:text-7xl font-serif font-bold text-white leading-tight">
-             O próximo nível da sua clínica começa <span className="gold-text">agora.</span>
-           </h2>
-           <p className="text-xl sm:text-2xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
-             Sua clínica possui um ouro escondido. Eu sou a pessoa que vai te ajudar a minerá-lo.
-           </p>
-           
-           <div className="flex flex-col items-center gap-8">
-             <a 
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto gold-gradient text-black py-8 px-20 rounded-[3rem] font-black text-2xl flex items-center justify-center gap-4 shadow-3xl shadow-amber-500/40 hover:scale-105 active:scale-95 transition-all animate-pulse-gold"
-            >
-              GARANTIR MINHA ANÁLISE
-            </a>
-            <div className="flex gap-2">
-               {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-amber-500 text-amber-500 shadow-amber-500/20"/>)}
-            </div>
-            <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Atendimento restrito a 2 novos projetos/mês</p>
-           </div>
-        </div>
-      </section>
-
-      {/* FOOTER */}
       <footer className="py-20 px-6 border-t border-white/5 bg-[#030303]">
         <div className="max-w-6xl mx-auto flex flex-col items-center gap-12">
            <div className="text-center">
@@ -514,17 +368,17 @@ const LandingPage: React.FC<{ previewMode: boolean; getWhatsAppLink?: (isQuiz?: 
            </div>
            
            <div className="flex items-center gap-6">
-             <a href={EXPERT.instagram} target="_blank" rel="noopener noreferrer" className="w-14 h-14 glass-card rounded-2xl flex items-center justify-center text-slate-400 hover:text-amber-500 transition-all border-white/5">
+             <a href={EXPERT.instagram} target="_blank" rel="noopener noreferrer" className="w-14 h-14 glass-card rounded-2xl flex items-center justify-center text-slate-400 hover:text-amber-500 transition-all">
                 <Instagram className="w-6 h-6" />
              </a>
-             <a href={waLink} target="_blank" rel="noopener noreferrer" className="w-14 h-14 glass-card rounded-2xl flex items-center justify-center text-slate-400 hover:text-amber-500 transition-all border-white/5">
+             <a href={waLink} target="_blank" rel="noopener noreferrer" className="w-14 h-14 glass-card rounded-2xl flex items-center justify-center text-slate-400 hover:text-amber-500 transition-all">
                 <MessageCircle className="w-6 h-6" />
              </a>
            </div>
 
            <div className="text-center space-y-2 text-slate-600 text-[10px] font-medium tracking-widest uppercase">
               <p>{EXPERT.address} • {new Date().getFullYear()}</p>
-              <p>© Elevate Marketing • Estratégias de Alto Padrão</p>
+              <p>© Elevate Marketing</p>
            </div>
         </div>
       </footer>
